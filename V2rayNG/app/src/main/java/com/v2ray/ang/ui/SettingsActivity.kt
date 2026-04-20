@@ -53,6 +53,8 @@ class SettingsActivity : BaseActivity() {
         private val mode by lazy { findPreference<ListPreference>(AppConfig.PREF_MODE) }
         private val socksPort by lazy { findPreference<EditTextPreference>(AppConfig.PREF_SOCKS_PORT) }
         private val dynamicSocksPort by lazy { findPreference<CheckBoxPreference>(AppConfig.PREF_DYNAMIC_SOCKS_PORT) }
+        private val browserDialerEnabled by lazy { findPreference<CheckBoxPreference>(AppConfig.PREF_BROWSER_DIALER_ENABLED) }
+        private val browserDialerAddr by lazy { findPreference<EditTextPreference>(AppConfig.PREF_BROWSER_DIALER_ADDR) }
 
         private val hevTunLogLevel by lazy { findPreference<ListPreference>(AppConfig.PREF_HEV_TUNNEL_LOGLEVEL) }
         private val hevTunRwTimeout by lazy { findPreference<EditTextPreference>(AppConfig.PREF_HEV_TUNNEL_RW_TIMEOUT) }
@@ -119,6 +121,12 @@ class SettingsActivity : BaseActivity() {
                 updateDynamicSocksPort(newValue as Boolean)
                 true
             }
+
+            browserDialerEnabled?.setOnPreferenceChangeListener { _, newValue ->
+                updateBrowserDialerAddr(newValue as Boolean)
+                true
+            }
+
         }
 
         private fun initPreferenceSummaries() {
@@ -184,6 +192,8 @@ class SettingsActivity : BaseActivity() {
             autoUpdateInterval?.isEnabled = MmkvManager.decodeSettingsBool(AppConfig.SUBSCRIPTION_AUTO_UPDATE, false)
 
             updateDynamicSocksPort(MmkvManager.decodeSettingsBool(AppConfig.PREF_DYNAMIC_SOCKS_PORT, false))
+
+            updateBrowserDialerAddr(MmkvManager.decodeSettingsBool(AppConfig.PREF_BROWSER_DIALER_ENABLED, false))
         }
 
         private fun updateMode(value: String?) {
@@ -278,6 +288,11 @@ class SettingsActivity : BaseActivity() {
         private fun updateDynamicSocksPort(enabled: Boolean) {
             socksPort?.isEnabled = !enabled
         }
+
+        private fun updateBrowserDialerAddr(enabled: Boolean) {
+            browserDialerAddr?.isEnabled = enabled
+        }
+            
 
         private fun updateHevTunSettings(enabled: Boolean) {
             hevTunLogLevel?.isEnabled = enabled

@@ -193,4 +193,7 @@ dependencies {
     testImplementation(libs.org.mockito.mockito.inline)
     testImplementation(libs.mockito.kotlin)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    // GeckoView
+    implementation("org.mozilla.geckoview:geckoview:130.0.20240913135723")
 }
