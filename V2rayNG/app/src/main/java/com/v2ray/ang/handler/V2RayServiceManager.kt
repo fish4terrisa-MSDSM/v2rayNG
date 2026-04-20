@@ -207,13 +207,14 @@ object V2RayServiceManager {
 
         currentConfig = config
         var tunFd = vpnInterface?.fd ?: 0
+        val dialerAddr = SettingsManager.getBrowserDialerAddr()
         if (SettingsManager.isUsingHevTun()) {
             tunFd = 0
         }
 
         try {
             NotificationManager.showNotification(currentConfig)
-            coreController.startLoop(result.content, tunFd)
+            coreController.startLoop(result.content, tunFd, dialerAddr)
         } catch (e: Exception) {
             LogUtil.e(AppConfig.TAG, "StartCore-Manager: Failed to start core loop", e)
             return false
